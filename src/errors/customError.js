@@ -10,4 +10,3 @@ class CustomError {
 }
 
 module.exports = CustomError;
-// module.exports = customEerrors;

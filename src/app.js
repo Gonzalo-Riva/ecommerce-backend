@@ -16,6 +16,8 @@ const { init } = require('./dao/models/users.model');
 const { initPassaport } = require('./utils/passport.config');
 const passport = require('passport');
 const errorList = require('./middlewares/errors');
+const { mdwlLogger } = require('./config/winston');
+const { faker } = require('@faker-js/faker');
 mongoose.set('strictQuery', false);
 
 const FileStorage = FileStore(session);
@@ -47,17 +49,22 @@ server.use(
   })
 );
 
+// server.use(mdwlLogger);
 server.use(errorList);
 initPassaport();
 server.use(passport.initialize());
 server.use(passport.session());
+// Middlewares de logger
+server.use(mdwlLogger);
 
 //rutas
 
 server.use('/', router);
 
+
+
 const test = async () => {
-  await mongoose.connect('mongodb+srv://root:uhxZm0JJ5P6Iy90Y@cluster0.kejfql2.mongodb.net/test?retryWrites=true&w=majority');
+  await mongoose.connect("mongodb+srv://root:uhxZm0JJ5P6Iy90Y@cluster0.kejfql2.mongodb.net/test?retryWrites=true&w=majority");
   console.log('Su conexion a la base fue exitosa');
 };
 

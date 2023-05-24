@@ -1,7 +1,7 @@
-const mongoose = require('mongoose')
-const paginate = require('mongoose-paginate-v2')
+const mongoose = require('mongoose');
+const paginate = require('mongoose-paginate-v2');
+const { stringify } = require('querystring');
 const productSchema = new mongoose.Schema({
-
     title: {
         type: String,
         require: true,
@@ -28,10 +28,12 @@ const productSchema = new mongoose.Schema({
         require: true,
     },
     thumbnail: String,
-
+    owner: {
+        type: String,
+        default: 'admin',
+    },
 });
-
-productSchema.plugin(paginate)
+productSchema.plugin(paginate);
 const productModel = mongoose.model('products', productSchema);
 
 module.exports = productModel;

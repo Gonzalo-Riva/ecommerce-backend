@@ -3,6 +3,7 @@ const BdCartManager = require('../dao/mongoManager/BdCartManager');
 const { find } = require('../dao/models/products.model');
 const { mdwlLogger } = require('../config/winston');
 const { v4 } = require('uuid');
+const mailingService = require('../service/mailing.service');
 
 const createCarts = async (req, res) => {
   const cart = req.body;
@@ -45,6 +46,11 @@ const addProductToCart = async (req, res) => {
       ok: false,
     });
   }
+  if (product.email == req.user.email) {
+    return res.status(400).json({
+      msg: `El Usuario no fue autorizado para agregar este producto`,
+    });
+  }
 
   const cart = await BdCartManager.getCartsId(cid);
 
@@ -75,8 +81,12 @@ const addProductToCart = async (req, res) => {
   cart.quantityTotal = cart.quantityTotal + 1;
   const cartToUpdate = await BdCartManager.updateCartProducts(cart);
 
+  setTimeout(() => {
+    mailingService.sendMail({ to: req.user.email, subjet: `Pagar!! ${req.user.firstName}`, html: '<h1>Paga POR FAVOR</h1>' });
+  }, 5000);
+
   return res.status(201).json({
-    msg: 'Producto agregado al carrito: ${cid}',
+    msg: `Producto agregado al carrito: ${cid}`,
     cart: cartToUpdate,
   });
 };
@@ -103,7 +113,7 @@ const deleteProductToCart = async (req, res) => {
     const total = Cart.products.reduce((acumulador, total) => acumulador + product.price * total.quantity, 0);
     Cart.priceTotal = total;
     const cartToUpdate = await BdCartManager.updateCartProducts(Cart);
-    return res.status(200).json({ msg: 'Producto eliminado del carrito', cart: cartToUpdate });
+    return res.status(200).json({ msg: 'El Producto fue eliminado del carrito', cart: cartToUpdate });
   }
 };
 const updateQuantityProduct = async (req, res) => {
@@ -146,7 +156,7 @@ const updateQuantityProduct = async (req, res) => {
   cart.priceTotal = cart.products.reduce((acumulador, total) => acumulador + total.price * total.quantity, 0);
   cart.quantityTotal = cart.products.reduce((Acomulador, ProductoActual) => Acomulador + ProductoActual.quantity, 0);
   const cartToUpdate = await BdCartManager.updateCartProducts(cart);
-  return res.status(200).json({ msg: 'Cantidad de producto actualizada', cart: cartToUpdate });
+  return res.status(200).json({ msg: 'Cantidad de productos actualizada', cart: cartToUpdate });
 };
 
 const cartUpdate = async (req, res) => {
@@ -199,7 +209,7 @@ const deleteToCart = async (req, res) => {
   Cart.totalPrice = 0;
   const cartToUpdate = await Carts.updateCartProducts(Cart);
   return res.status(201).json({
-    msj: 'Carrito Vaciado',
+    msj: 'El Carrito Fue Vaciado',
     Carrito: cartToUpdate,
   });
 };

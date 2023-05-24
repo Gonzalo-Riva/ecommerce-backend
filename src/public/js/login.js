@@ -27,13 +27,4 @@ loginForm.addEventListener('submit', (e) => {
         });
       }
     });
-
-
-
-
-
-
-
-
-
 });

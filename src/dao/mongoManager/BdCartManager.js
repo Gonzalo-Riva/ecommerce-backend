@@ -1,7 +1,6 @@
 const cartsModel = require('../models/carts.model');
 const ticketModel = require('../models/ticket.model');
 const { faker } = require('@faker-js/faker');
-// const productModel = require('../models/products.model')
 
 class BdCartsManager {
   constructor() {
@@ -13,7 +12,7 @@ class BdCartsManager {
       const Createcart = await cartsModel.create(cart);
       return Createcart;
     } catch (error) {
-      return { msg: 'Error al crear el Carrito' };
+      return { msg: 'Error al crear Carritos' };
     }
   };
 
@@ -22,7 +21,7 @@ class BdCartsManager {
       const cart = await cartsModel.findById(id);
       return cart;
     } catch (error) {
-      return undefined;
+      return { msg: 'No se pueden traer los carritos' };
     }
   };
 
@@ -40,11 +39,11 @@ class BdCartsManager {
       const cart = await cartsModel.find();
       return cart;
     } catch (error) {
-      return { msg: 'Error Al Mostrar El Carrito' };
+      return { msg: 'Error Al Mostrar Carrito' };
     }
   };
 
-  addProductToCarts = async (cid, product) => {
+  addProductToCarts = async (cid, product, user) => {
     const cart = await cartsModel.findById(cid);
     console.log(JSON.stringify(product));
     const resultado = cart.products.findIndex((prod) => prod.id == product.id);
@@ -129,5 +128,6 @@ class BdCartsManager {
     return ticketCreate;
   };
 }
+
 
 module.exports = new BdCartsManager();

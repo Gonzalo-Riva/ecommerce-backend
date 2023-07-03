@@ -32,7 +32,7 @@ const httpServer = server.listen(PORT, () => console.log('Servidor listo escucha
 server.use(
   cors({
     credentials: true,
-    origin: 'cambiarrrr',
+    origin: 'https://frontend-gonzalo-riva.up.railway.app',
   })
 );
 

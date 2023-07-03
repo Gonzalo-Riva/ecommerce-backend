@@ -12,14 +12,14 @@ const Users = () => {
         try {
             setIsLoading(true);
             await axios.put(
-                'http://localhost:8080/api/users/',
+                'https://backend-gonzalo-riva.up.railway.app/api/users/',
                 {
                     id: userWithNewRole._id,
                     user: userWithNewRole,
                 },
                 { withCredentials: true }
             );
-            const response = await axios.get('http://localhost:8080/api/users', { withCredentials: true });
+            const response = await axios.get('https://backend-gonzalo-riva.up.railway.app/api/users', { withCredentials: true });
 
             setUsers(response.data);
         } catch (error) {
@@ -31,8 +31,8 @@ const Users = () => {
     const handlerDeleteUser = async (id) => {
         try {
             setIsLoading(true);
-            await axios.delete('http://localhost:8080/api/users/' + id, null, { withCredentials: true });
-            const response = await axios.get('http://localhost:8080/api/users', { withCredentials: true });
+            await axios.delete('https://backend-gonzalo-riva.up.railway.app/api/users/' + id, null, { withCredentials: true });
+            const response = await axios.get('https://backend-gonzalo-riva.up.railway.app/api/users', { withCredentials: true });
 
             setUsers(response.data);
         } catch (error) {
@@ -45,7 +45,7 @@ const Users = () => {
         const fetchUsers = async () => {
             try {
                 setIsLoading(true);
-                const response = await axios.get('http://localhost:8080/api/users', { withCredentials: true });
+                const response = await axios.get('https://backend-gonzalo-riva.up.railway.app/api/users', { withCredentials: true });
 
                 setUsers(response.data);
             } catch (error) {

@@ -4,14 +4,19 @@ const CustomError = require('../errors/customError.js');
 const { invalidParamsProduct, invalidId } = require('../utils/creatorMsg');
 const { ERROR_FROM_SERVER } = require('../errors/enumErrors');
 const { INVALID_FILTER } = require('../errors/enumErrors');
+const ProductService = require('../service/products.service');
+const mailingService = require('../service/mailing.service');
+const ProductManager = require('../dao/fsManager/ProductManager');
+const userModel = require('../dao/models/users.model');
+const productModel = require('../dao/models/products.model');
 
 const getProductsBd = async (req, res) => {
   const { limit, page, sort, ...query } = req.query;
   const products = await ProductRepository.get(page, limit, sort, query);
-  const { docs } = products;
+  const { docs, ...resto } = products;
   const state = products ? 'success' : 'error';
   if (products) {
-    res.json({ ...products, status: state, payload: docs });
+    res.json({ ...resto, status: state, payload: docs });
   } else {
     res.json(products);
   }
@@ -19,16 +24,20 @@ const getProductsBd = async (req, res) => {
 
 const addProductBd = async (req, res, next) => {
   const product = req.body;
-  if (req.user.role === 'premium') {
+  if (req.user.role !== 'user') {
     product.owner = req.user.email;
+    product.ownerRole = req.user.role;
     const newproduct = await ProductRepository.add(product);
-    return res.json(newproduct);
+    return res.json({
+      status: 'success',
+      msg: 'El producto fue creado con éxito',
+      newproduct,
+    });
+  } else {
+    return res.json({
+      msg: 'Este usuario no tiene derechos',
+    });
   }
-  if (!product.owner) {
-    const newproduct = await ProductRepository.add(product);
-    return res.json(newproduct);
-  }
-
 };
 
 const getProductIdBd = async (req, res) => {
@@ -52,19 +61,39 @@ const UpdateProductBd = async (req, res) => {
   }
 };
 
-const deleteProductBd = async (req, res) => {
+const deleteProductBd = async (req, res, next) => {
   const id = req.params.pid;
   const productExist = await BdProductManager.getProductId(id);
   if (!productExist) {
-    return res.json({ msg: 'Producto Inexistente' });
+    return res.json({ msg: 'No existe éste producto ' });
   }
   if (req.user.role === 'admin') {
-    const deleteproduct = await BdProductManager.DeleteProductId(id);
+    await BdProductManager.DeleteProductId(id);
+    const propietario = productExist.ownerRole;
+    if (propietario === 'premium') {
+      mailingService.sendMail({
+        to: productExist.owner,
+        subject: 'Se ha eliminado tu producto ',
+        html: `<div style="background-color: light-blue; color: withe; display: flex; flex-direction: column; justify-content: center;  align-items: center;">
+              <h1>Tu producto ${productExist}ha sido eliminado!</h1>
+              </div>`,
+      });
+    }
     return res.json({ msg: 'Producto Eliminado' });
   }
   if (req.user.role === 'premium') {
     if (req.user.email == productExist.owner) {
-      const deleteproduct = await BdProductManager.DeleteProductId(id);
+      await BdProductManager.DeleteProductId(id);
+      if (productExist.owner) {
+        mailingService.sendMail({
+          to: req.user.email,
+          subject: 'Se ha eliminado tu producto',
+          html: `<div style="background-color: light-blue; color: withe; display: flex; flex-direction: column; justify-content: center;  align-items: center;">
+                <h1>Tu cuenta fue eliminada!</h1>
+                <a>Si queres continuar usando nuestros servicios podes crear otra cuenta.</a>
+                </div>`,
+        });
+      }
       return res.json({ msg: 'Producto Eliminado' });
     } else {
       return res.json({ msg: 'No tenes permisos para eliminar el producto' });
@@ -72,7 +101,6 @@ const deleteProductBd = async (req, res) => {
   } else {
     return res.json({ msg: 'No tenes permisos para eliminar el producto' });
   }
-
 };
 
 module.exports = {

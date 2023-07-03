@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { PRIVATE_KEY_JWT } = require('../config/config');
 const BdSessionManager = require('../dao/mongoManager/BdSessionManager');
-
 const generateToken = (payload) => {
     const token = jwt.sign({ payload }, PRIVATE_KEY_JWT, { expiresIn: '1h' });
     return token;
@@ -24,7 +23,7 @@ const getPayload = (req, res, next) => {
             }
         });
     } else {
-        res.status(401).send({ error: 'no se encontro el token' });
+        res.status(401).send({ error: 'no se encontro token' });
     }
 };
 
@@ -45,7 +44,7 @@ const getPayloadByCookie = (req, res, next) => {
             }
         });
     } else {
-        res.status(401).send({ error: 'no se encontro el token' });
+        res.status(401).send({ error: 'no se encontro token' });
     }
 };
 

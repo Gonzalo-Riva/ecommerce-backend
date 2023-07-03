@@ -11,7 +11,6 @@ const FileStore = require('session-file-store');
 const mongoconnect = require('connect-mongo');
 const mongoose = require('mongoose');
 const productModel = require('./dao/models/products.model');
-const { PORT } = require('./utils/constants');
 const { init } = require('./dao/models/users.model');
 const { initPassaport } = require('./utils/passport.config');
 const passport = require('passport');
@@ -21,13 +20,21 @@ const { faker } = require('@faker-js/faker');
 mongoose.set('strictQuery', false);
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
-// const cors = require('cors');
-
+const multer = require('multer');
+const cors = require('cors');
+const PORT = process.env.PORT || 8080;
 const FileStorage = FileStore(session);
-const httpServer = server.listen(8080, () => { });
 
-// Documentacion Swagger
-// server.use(cors());
+
+const httpServer = server.listen(PORT, () => console.log('Servidor listo escuchando en puerto ${PORT}'));
+
+
+server.use(
+  cors({
+    credentials: true,
+    origin: 'cambiarrrr',
+  })
+);
 
 const config = {
   definition: {
@@ -43,15 +50,15 @@ const config = {
 const spec = swaggerJsDoc(config);
 server.use('/api-docs', swaggerUi.serve, swaggerUi.setup(spec));
 
-//handlerbars
+
 server.engine('handlebars', handlebars.engine());
 server.set('views', __dirname + '/views');
 server.set('view engine', 'handlebars');
 
-//cokiers
+
 server.use(cookieParser());
 
-//express
+
 server.use(express.static(__dirname + '/public'));
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
@@ -59,7 +66,8 @@ server.use(express.urlencoded({ extended: true }));
 server.use(
   session({
     store: mongoconnect.create({
-      mongoUrl: mongoURL,
+
+      mongoUrl: process.env.MONGOURL,
       mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
       ttl: 60 * 60,
     }),
@@ -69,21 +77,19 @@ server.use(
   })
 );
 
-// server.use(mdwlLogger);
+
 server.use(errorList);
 initPassaport();
 server.use(passport.initialize());
 server.use(passport.session());
-// Middlewares de logger
+
 server.use(mdwlLogger);
 
-//rutas
 
 server.use('/', router);
 
-
 const test = async () => {
-  await mongoose.connect("mongodb+srv://root:uhxZm0JJ5P6Iy90Y@cluster0.kejfql2.mongodb.net/test?retryWrites=true&w=majority");
+  await mongoose.connect(process.env.MONGOURL);
   console.log('Su conexion a la base fue exitosa');
 };
 

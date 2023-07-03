@@ -1,11 +1,11 @@
 {
-  "name": "3entrega",
+  "name": "entregafinal",
   "version": "1.0.0",
-  "description": "tercera entrega",
+  "description": "proyectfinal",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon ./src/app.js"
+    "start": "node ./src/app.js"
   },
   "keywords": [],
   "author": "Gonzalo Riva",
@@ -25,22 +25,31 @@
     "express-session": "^1.17.3",
     "faker-js": "^1.0.0",
     "jsonwebtoken": "^9.0.0",
+    "mocha": "^10.2.0",
+    "moment": "^2.29.4",
     "mongo-store": "^0.0.2",
     "mongoose": "^6.9.0",
     "mongoose-paginate-v2": "^1.7.1",
     "mongoose-populate": "^3.0.3",
     "mongose": "^0.0.2-security",
+    "multer": "^1.4.5-lts.1",
     "node": "^20.1.0",
     "nodemailer": "^6.9.2",
+    "nodemon": "^2.0.22",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "session-file-store": "^1.5.0",
     "socket.io": "^4.5.4",
+    "stripe": "^12.10.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^4.6.3",
     "sweetalert2": "^11.7.2",
     "uuid": "^9.0.0",
     "winston": "^3.8.2"
   },
-  "type": "commonjs"
+  "type": "commonjs",
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "supertest": "^6.3.3"
+  }
 }

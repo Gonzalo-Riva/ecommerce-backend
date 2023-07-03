@@ -8,6 +8,8 @@ const views = async (req, res) => {
   res.render('home', { products: view, hasPrevPage: products.hasPrevPage, hasNextPage: products.hasNextPage, page: products.page, totalPages: products.totalPages });
 };
 
+
+
 const viewCart = async (req, res) => {
   const { cid } = req.params;
   const cart = await BdCartManager.renderCart(cid);
@@ -50,6 +52,26 @@ const fortgotPassword = async (req, res) => {
 const recoverPassword = async (req, res) => {
   res.render('recover-password');
 };
+
+const getUserDocuments = (req, res) => {
+  try {
+    let isLogin;
+    let user;
+
+    if (!req.user) {
+      isLogin = false;
+      user = {};
+    } else {
+      isLogin = true;
+      user = req.user;
+    }
+
+    res.render('documents', { isLogin, user });
+  } catch (error) {
+    console.log(error);
+    res.render('error');
+  }
+};
 module.exports = {
   views,
   viewCart,
@@ -59,4 +81,5 @@ module.exports = {
   logout,
   fortgotPassword,
   recoverPassword,
+  getUserDocuments,
 };

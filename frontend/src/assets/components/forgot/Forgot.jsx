@@ -9,7 +9,7 @@ function Forgotpass() {
     const forgot = async () => {
         const res = await axios
             .post(
-                'https://backend-gonzalo-riva.up.railway.app/api/session/forgot-password',
+                'https://backend-gonzalo-riva.netlify.app/api/session/forgot-password',
 
                 {
                     email: Email,

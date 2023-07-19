@@ -16,8 +16,8 @@ function Cart() {
         try {
             setIsLoading(true);
 
-            await axios.delete(`https://backend-gonzalo-riva.up.railway.app/api/cartsBd/${cid}/product/${pid}`);
-            const response = await axios.get(`https://backend-gonzalo-riva.up.railway.app/api/cartsBd/${cid}`);
+            await axios.delete(`https://backend-gonzalo-riva.netlify.app/api/cartsBd/${cid}/product/${pid}`);
+            const response = await axios.get(`https://backend-gonzalo-riva.netlify.app/api/cartsBd/${cid}`);
             setCart(response.data);
         } catch (error) {
             console.log(error);
@@ -30,7 +30,7 @@ function Cart() {
         const { cart: cid } = JSON.parse(localStorage.getItem('usuarios'));
         try {
             setIsLoading(true);
-            const response = await axios.delete(`https://backend-gonzalo-riva.up.railway.app/api/cartsBd/${cid}`);
+            const response = await axios.delete(`https://backend-gonzalo-riva.netlify.app/api/cartsBd/${cid}`);
             setCart(response.data.Carrito);
         } catch (error) {
             setError(true);
@@ -44,7 +44,7 @@ function Cart() {
         const fetchCart = async () => {
             try {
                 setIsLoading(true);
-                const response = await axios.get(`https://backend-gonzalo-riva.up.railway.app/api/cartsBd/${cid}`);
+                const response = await axios.get(`hhttps://backend-gonzalo-riva.netlify.app/api/cartsBd/${cid}`);
                 setCart(response.data);
                 console.log(response);
             } catch (error) {

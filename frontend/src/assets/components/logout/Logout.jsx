@@ -11,7 +11,7 @@ function Logout() {
     const [Password, setPassword] = useState('');
     const navigate = useNavigate();
     const logoutnuser = async () => {
-        const res = await axios.post('https://backend-gonzalo-riva.up.railway.app/api/session/logout/', {
+        const res = await axios.post('https://backend-gonzalo-riva.netlify.app/api/session/logout/', {
             email: Email,
             password: Password,
         });

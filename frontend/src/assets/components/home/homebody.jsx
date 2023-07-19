@@ -16,11 +16,11 @@ function Home() {
     const { cart } = JSON.parse(localStorage.getItem('usuarios'));
 
     const addToCart = async (cid, pid) => {
-        await axios.post(`https://backend-gonzalo-riva.up.railway.app/cartsBd/${cid}/product/${pid}`);
+        await axios.post(`https://backend-gonzalo-riva.netlify.app/cartsBd/${cid}/product/${pid}`);
     };
 
     useEffect(() => {
-        fetch(`https://backend-gonzalo-riva.up.railway.app/api/productsBd/?${selectedPage ? `page=${selectedPage}` : ''}`, {
+        fetch(`https://backend-gonzalo-riva.netlify.app/api/productsBd/?${selectedPage ? `page=${selectedPage}` : ''}`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
         })

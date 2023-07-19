@@ -32,7 +32,7 @@ const httpServer = server.listen(PORT, () => console.log('Servidor listo escucha
 server.use(
   cors({
     credentials: true,
-    origin: 'https://frontend-gonzalo-riva.netlify.app/',
+    origin: 'https://frontend-gonzalo-riva.netlify.app',
   })
 );
 

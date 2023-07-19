@@ -17,7 +17,11 @@ function Login() {
     const navigate = useNavigate();
     const loginuser = async () => {
         const res = await axios.post(
+<<<<<<< HEAD
             'https://backend-gonzalo-riva.netlify.app/api/session/login/',
+=======
+            'http://localhost:8080/api/session/login/',
+>>>>>>> parent of 4c738d3 (asd2)
             {
                 email: Email,
                 password: Password,

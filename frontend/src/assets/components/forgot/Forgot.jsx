@@ -9,7 +9,11 @@ function Forgotpass() {
     const forgot = async () => {
         const res = await axios
             .post(
+<<<<<<< HEAD
                 'https://backend-gonzalo-riva.netlify.app/api/session/forgot-password',
+=======
+                'http://localhost:8080/api/session/forgot-password',
+>>>>>>> parent of 4c738d3 (asd2)
 
                 {
                     email: Email,

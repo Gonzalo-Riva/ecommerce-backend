@@ -16,11 +16,19 @@ function Home() {
     const { cart } = JSON.parse(localStorage.getItem('usuarios'));
 
     const addToCart = async (cid, pid) => {
+<<<<<<< HEAD
         await axios.post(`https://backend-gonzalo-riva.netlify.app/cartsBd/${cid}/product/${pid}`);
     };
 
     useEffect(() => {
         fetch(`https://backend-gonzalo-riva.netlify.app/api/productsBd/?${selectedPage ? `page=${selectedPage}` : ''}`, {
+=======
+        await axios.post(`http://localhost:8080/api/cartsBd/${cid}/product/${pid}`);
+    };
+
+    useEffect(() => {
+        fetch(`http://localhost:8080/api/productsBd/?${selectedPage ? `page=${selectedPage}` : ''}`, {
+>>>>>>> parent of 4c738d3 (asd2)
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
         })

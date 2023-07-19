@@ -11,7 +11,11 @@ function Logout() {
     const [Password, setPassword] = useState('');
     const navigate = useNavigate();
     const logoutnuser = async () => {
+<<<<<<< HEAD
         const res = await axios.post('https://backend-gonzalo-riva.netlify.app/api/session/logout/', {
+=======
+        const res = await axios.post('http://localhost:8080/api/session/logout/', {
+>>>>>>> parent of 4c738d3 (asd2)
             email: Email,
             password: Password,
         });

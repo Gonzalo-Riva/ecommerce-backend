@@ -16,8 +16,13 @@ function Cart() {
         try {
             setIsLoading(true);
 
+<<<<<<< HEAD
             await axios.delete(`https://backend-gonzalo-riva.netlify.app/api/cartsBd/${cid}/product/${pid}`);
             const response = await axios.get(`https://backend-gonzalo-riva.netlify.app/api/cartsBd/${cid}`);
+=======
+            await axios.delete(`http://localhost:8080/api/cartsBd/${cid}/product/${pid}`);
+            const response = await axios.get(`http://localhost:8080/api/cartsBd/${cid}`);
+>>>>>>> parent of 4c738d3 (asd2)
             setCart(response.data);
         } catch (error) {
             console.log(error);
@@ -30,7 +35,11 @@ function Cart() {
         const { cart: cid } = JSON.parse(localStorage.getItem('usuarios'));
         try {
             setIsLoading(true);
+<<<<<<< HEAD
             const response = await axios.delete(`https://backend-gonzalo-riva.netlify.app/api/cartsBd/${cid}`);
+=======
+            const response = await axios.delete(`http://localhost:8080/api/cartsBd/${cid}`);
+>>>>>>> parent of 4c738d3 (asd2)
             setCart(response.data.Carrito);
         } catch (error) {
             setError(true);
@@ -44,7 +53,11 @@ function Cart() {
         const fetchCart = async () => {
             try {
                 setIsLoading(true);
+<<<<<<< HEAD
                 const response = await axios.get(`hhttps://backend-gonzalo-riva.netlify.app/api/cartsBd/${cid}`);
+=======
+                const response = await axios.get(`http://localhost:8080/api/cartsBd/${cid}`);
+>>>>>>> parent of 4c738d3 (asd2)
                 setCart(response.data);
                 console.log(response);
             } catch (error) {

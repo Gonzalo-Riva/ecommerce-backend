@@ -10,7 +10,11 @@ function Register() {
     const [Firstname, setName] = useState('');
     const [Lastname, setLastName] = useState('');
     const registeruser = async () => {
+<<<<<<< HEAD
         const res = await axios.post('https://backend-gonzalo-riva.netlify.app/api/session/register/', {
+=======
+        const res = await axios.post('http://localhost:8080/api/session/register/', {
+>>>>>>> parent of 4c738d3 (asd2)
             firstName: Firstname,
             lastName: Lastname,
             email: Email,
